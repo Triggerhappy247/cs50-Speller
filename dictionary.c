@@ -19,7 +19,7 @@ typedef struct _trie
 } node ;
 
 // Declare root node
-node *root = malloc(sizeof(node));
+node *root;
 int dicWordCount = 0;
 
 /**
@@ -34,12 +34,26 @@ int getindex(const char ch)
 }
 
 /**
+ * Create nodes for trie
+ */
+node* create()
+{
+    node *temp = (node*) malloc(sizeof(node));
+    for(int i = 0; i <= APOSTROPHE; i++)
+    {
+        temp->children[i] = NULL;
+    }
+    temp->isWord = NULL;
+    return temp;
+}
+
+/**
  * Returns true if word is in dictionary else false.
  */
 bool check(const char *word)
 {
     // TODO
-    return false;
+    return true;
 }
 
 /**
@@ -48,18 +62,19 @@ bool check(const char *word)
 bool load(const char *dictionary)
 {
     FILE *inptr = fopen(dictionary,"r");
+    root = create();
     char word[45];
     int i, index;
     node *newNode = root;
     while(feof(inptr) == 0)
     {
         fscanf(inptr, "%s", word);
-        for(i = 0; word[i] != '\0', i++)
+        for(i = 0; word[i] != '\0'; i++)
         {
             index = getindex(word[i]);
             if(newNode->children[index] == NULL)
             {
-                newNode->children[index] = malloc(sizeof(node));
+                newNode->children[index] = create();
             
                 if(newNode->children[index] == NULL)
                 {
@@ -90,14 +105,9 @@ unsigned int size(void)
 }
 
 /**
- * Unloads dictionary from memory. Returns true if successful else false.
+ * Unloads trie from memory. Returns true if successful else false.
  */
-bool unload(void)
-{
-    unload(root);
-}
-
-bool unload(node n)
+bool unloadtrie(node *n)
 {
     if(n == NULL)
     {
@@ -108,9 +118,20 @@ bool unload(node n)
         static int i;
         for(i = 0; i <= APOSTROPHE; i++)
         {
-            unload(n->children[i]);
+            if(n->children[i] != NULL)
+            {
+                unloadtrie(n->children[i]);
+            }
         }
         free(n);
         return true;
     }
+}
+
+/**
+ * Unloads dictionary from memory. Returns true if successful else false.
+ */
+bool unload(void)
+{
+    return unloadtrie(root);
 }
