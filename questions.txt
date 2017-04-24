@@ -1,7 +1,23 @@
-0.  TODO
-1.  TODO
-2.  TODO
-3.  TODO
-4.  TODO
-5.  TODO
-6.  TODO
+0.  It is the longest word in english. It refers to a lung disease.
+
+1.  getrusage is used to get the amount of resources used by the process.
+
+2.  There are 16 members in rusage
+
+3.  This is done to save memory space, by passing by reference, only pointers to the structure is created and
+    not an entire new structure to store values.
+
+4.  The words created are all alphabetical (with ') and any alphanumeric words are not created.
+    The for gets a single character(int) from the file. If it is an alphabet or an apostrophe, it adds the
+    character to word and increments the index. If the index exceeds 45(LENGTH) it means that the word is
+    invalid and is dicarded by resetting index to zero 
+   
+    If the character is a digit, it discards the rest of the word by getting characters until a whitespace
+    comes or a EOF is reached and resetting index to zero. If the above errors are not encountered, and
+    index is greater than zero, we append \0 to the end of word and increment the words variable. We then
+    call check to validate the word.
+
+5.  using fscanf can cause formatting problems as it stops at whitespaces and also a waste of memory if the 
+    word is alphanumeric.
+
+6.  It is done to prevent any accidental changes to the word/dictionary.
