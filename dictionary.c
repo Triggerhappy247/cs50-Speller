@@ -96,3 +96,21 @@ bool unload(void)
 {
     unload(root);
 }
+
+bool unload(node n)
+{
+    if(n == NULL)
+    {
+        return true;
+    }
+    else
+    {
+        static int i;
+        for(i = 0; i <= APOSTROPHE; i++)
+        {
+            unload(n->children[i]);
+        }
+        free(n);
+        return true;
+    }
+}
