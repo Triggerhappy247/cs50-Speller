@@ -52,8 +52,18 @@ node* create()
  */
 bool check(const char *word)
 {
-    // TODO
-    return true;
+    node *trav = root;
+    int index;
+    for(int i = 0; word[i] != '\0'; i++)
+    {
+        index = getindex(word[i]);
+        trav = trav->children[i];
+        if(trav == NULL)
+        {
+            return false;
+        }
+    }
+    return trav->isWord;
 }
 
 /**
@@ -64,18 +74,18 @@ bool load(const char *dictionary)
     FILE *inptr = fopen(dictionary,"r");
     root = create();
     char word[45];
-    int i, index;
-    node *newNode = root;
+    int index;
+    node *newNode;
     while(feof(inptr) == 0)
     {
         fscanf(inptr, "%s", word);
-        for(i = 0; word[i] != '\0'; i++)
+        newNode = root;
+        for(int i = 0; word[i] != '\0'; i++)
         {
             index = getindex(word[i]);
             if(newNode->children[index] == NULL)
             {
                 newNode->children[index] = create();
-            
                 if(newNode->children[index] == NULL)
                 {
                     return false;
@@ -107,16 +117,15 @@ unsigned int size(void)
 /**
  * Unloads trie from memory. Returns true if successful else false.
  */
-bool unloadtrie(node *n)
+void unloadtrie(node *n)
 {
     if(n == NULL)
     {
-        return true;
+        return;
     }
     else
     {
-        static int i;
-        for(i = 0; i <= APOSTROPHE; i++)
+        for(int i = 0; i <= APOSTROPHE; i++)
         {
             if(n->children[i] != NULL)
             {
@@ -124,7 +133,6 @@ bool unloadtrie(node *n)
             }
         }
         free(n);
-        return true;
     }
 }
 
@@ -133,5 +141,6 @@ bool unloadtrie(node *n)
  */
 bool unload(void)
 {
-    return unloadtrie(root);
+    unloadtrie(root);
+    return true;
 }
