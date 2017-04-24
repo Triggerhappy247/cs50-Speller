@@ -111,7 +111,7 @@ bool load(const char *dictionary)
  */
 unsigned int size(void)
 {
-    return dicWordCount;
+    return dicWordCount - 1;
 }
 
 /**
