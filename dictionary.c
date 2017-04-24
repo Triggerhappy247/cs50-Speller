@@ -30,7 +30,7 @@ int getindex(const char ch)
     if(ch == '\'')
         return APOSTROPHE;
     else
-        return tolower(ch) - LOWERCASE_A ;
+        return tolower(ch) - LOWERCASE_A ; 
 }
 
 /**
@@ -57,7 +57,7 @@ bool check(const char *word)
     for(int i = 0; word[i] != '\0'; i++)
     {
         index = getindex(word[i]);
-        trav = trav->children[i];
+        trav = trav->children[index];
         if(trav == NULL)
         {
             return false;
